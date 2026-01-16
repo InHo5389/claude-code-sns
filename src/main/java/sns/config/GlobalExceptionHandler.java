@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import sns.domain.follow.FollowException;
 import sns.domain.user.UserException;
 
 @RestControllerAdvice
@@ -13,6 +14,13 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(UserException.class)
     public ResponseEntity<ErrorResponse> handleUserException(UserException e) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse(e.getMessage()));
+    }
+
+    @ExceptionHandler(FollowException.class)
+    public ResponseEntity<ErrorResponse> handleFollowException(FollowException e) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(e.getMessage()));
