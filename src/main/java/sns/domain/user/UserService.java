@@ -2,6 +2,7 @@ package sns.domain.user;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,15 +11,17 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public User register(String email, String password, String nickname) {
+    public User register(String email, String password,String nickname) {
         if (userRepository.existsByEmail(email)) {
             throw UserException.emailAlreadyExists(email);
         }
 
+        String encodedPassword = passwordEncoder.encode(password);
         User user = User.builder()
                 .email(email)
-                .password(password)
+                .password(encodedPassword)
                 .nickname(nickname)
                 .build();
 
@@ -42,7 +45,8 @@ public class UserService {
     @Transactional
     public User update(Long id, String password, String nickname) {
         User user = findById(id);
-        user.update(password, nickname);
+        String encodedPassword = password != null ? passwordEncoder.encode(password) : null;
+        user.update(encodedPassword, nickname);
         return user;
     }
 
