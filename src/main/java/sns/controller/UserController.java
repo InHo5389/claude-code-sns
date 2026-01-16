@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import sns.config.AuthUser;
 import sns.controller.dto.UserRegisterRequest;
 import sns.controller.dto.UserResponse;
 import sns.controller.dto.UserUpdateRequest;
@@ -23,13 +24,18 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/api/users")
+    @PostMapping("/api/users/register")
     public ResponseEntity<UserResponse> register(@Valid @RequestBody UserRegisterRequest request) {
         User user = userService.register(
                 request.email(),
                 request.password(),
                 request.nickname()
         );
+        return ResponseEntity.ok(UserResponse.from(user));
+    }
+
+    @GetMapping("/api/users/me")
+    public ResponseEntity<UserResponse> me(@AuthUser User user) {
         return ResponseEntity.ok(UserResponse.from(user));
     }
 
