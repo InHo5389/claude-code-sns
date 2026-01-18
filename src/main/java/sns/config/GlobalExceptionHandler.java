@@ -7,6 +7,10 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import sns.domain.follow.FollowException;
+import sns.domain.post.PostException;
+import sns.domain.quote.QuoteException;
+import sns.domain.reply.ReplyException;
+import sns.domain.repost.RepostException;
 import sns.domain.user.UserException;
 
 @RestControllerAdvice
@@ -21,6 +25,34 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(FollowException.class)
     public ResponseEntity<ErrorResponse> handleFollowException(FollowException e) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse(e.getMessage()));
+    }
+
+    @ExceptionHandler(PostException.class)
+    public ResponseEntity<ErrorResponse> handlePostException(PostException e) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse(e.getMessage()));
+    }
+
+    @ExceptionHandler(ReplyException.class)
+    public ResponseEntity<ErrorResponse> handleReplyException(ReplyException e) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse(e.getMessage()));
+    }
+
+    @ExceptionHandler(QuoteException.class)
+    public ResponseEntity<ErrorResponse> handleQuoteException(QuoteException e) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse(e.getMessage()));
+    }
+
+    @ExceptionHandler(RepostException.class)
+    public ResponseEntity<ErrorResponse> handleRepostException(RepostException e) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(e.getMessage()));
