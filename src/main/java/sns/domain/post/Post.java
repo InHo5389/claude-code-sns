@@ -3,6 +3,7 @@ package sns.domain.post;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -47,6 +48,9 @@ public class Post extends BaseEntity {
 
     @Column(name = "view_count", nullable = false)
     private Long viewCount = 0L;
+
+    @Column(name = "media_ids", columnDefinition = "bigint[]")
+    private List<Long> mediaIds;
 
 
     protected Post() {
