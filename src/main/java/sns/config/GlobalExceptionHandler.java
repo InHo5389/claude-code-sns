@@ -7,6 +7,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import sns.domain.follow.FollowException;
+import sns.domain.media.MediaException;
 import sns.domain.post.PostException;
 import sns.domain.quote.QuoteException;
 import sns.domain.reply.ReplyException;
@@ -53,6 +54,13 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(RepostException.class)
     public ResponseEntity<ErrorResponse> handleRepostException(RepostException e) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse(e.getMessage()));
+    }
+
+    @ExceptionHandler(MediaException.class)
+    public ResponseEntity<ErrorResponse> handleMediaException(MediaException e) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(e.getMessage()));

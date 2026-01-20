@@ -19,6 +19,24 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data
 
+  rustfs:
+    image: rustfs/rustfs:1.0.0-alpha.72
+    container_name: springboot-sns-rustfs
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      RUSTFS_ADDRESS: 0.0.0.0:9000
+      RUSTFS_CONSOLE_ADDRESS: 0.0.0.0:9001
+      RUSTFS_CONSOLE_ENABLE: "true"
+      RUSTFS_ACCESS_KEY: rustfsadmin
+      RUSTFS_SECRET_KEY: rustfsadmin
+    volumes:
+      - rustfs-data:/data
+      - rustfs-logs:/logs
+
 volumes:
   redis-data:
   postgres-data:
+  rustfs-data:
+  rustfs-logs:
